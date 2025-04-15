@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CLICK</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #111;
+      color: #0f0;
+      text-align: center;
+      padding-top: 50px;
+    }
+    h1 {
+      font-size: 3rem;
+    }
+    #sen {
+      font-size: 2.5rem;
+      margin: 20px 0;
+    }
+    button {
+      font-size: 1.5rem;
+      padding: 15px 30px;
+      margin: 10px;
+      border: none;
+      border-radius: 12px;
+      background: #0f0;
+      color: #111;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #0c0;
+    }
+  </style>
+</head>
+<body>
+  <h1>CLICK 💸</h1>
+  <div id="sen">Sen: 0</div>
+  <button onclick="clickSen()">CLICK ME +1 sen</button>
+  <button onclick="buyUpgrade()">Buy Upgrade (500 sen)</button>
+
+  <script>
+    let sen = parseInt(localStorage.getItem("sen")) || 0;
+    let senPerSecond = parseInt(localStorage.getItem("senPerSecond")) || 10;
+
+    function updateDisplay() {
+      document.getElementById("sen").textContent = "Sen: " + sen;
+    }
+
+    function clickSen() {
+      sen += 1;
+      updateDisplay();
+      save();
+    }
+
+    function buyUpgrade() {
+      if (sen >= 500) {
+        sen -= 500;
+        senPerSecond *= 2;
+        alert("Upgrade bought! You now earn " + senPerSecond + " sen/sec!");
+        save();
+      } else {
+        alert("Not enough sen!");
+      }
+      updateDisplay();
+    }
+
+    function save() {
+      localStorage.setItem("sen", sen);
+      localStorage.setItem("senPerSecond", senPerSecond);
+    }
+
+    setInterval(() => {
+      sen += senPerSecond;
+      updateDisplay();
+      save();
+    }, 1000);
+
+    updateDisplay();
+  </script>
+</body>
+</html>
